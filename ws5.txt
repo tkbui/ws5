@@ -1,0 +1,58 @@
+T.K. Bui | CS 185C | Worksheet 5, due 10/01/2021
+======================================================================================================================
+Script started on 2021-10-01 17:24:57+00:00 [TERM="screen" TTY="/dev/pts/2" COLUMNS="189" LINES="51"]
+
+----------------------------------------------------------------------------------------------------------------------
+1) Write a for loop on the bash shell that will write (redirect) the reviews of the top 1000 customers
+(with the most reviews) to separate files named as CUSTOMERS/custid.txt. 
+
+bui@f6linuxA7:~$ history -c
+
+bui@f6linuxA7:~$ mkdir CUSTOMERS
+
+bui@f6linuxA7:~$ ls
+CUSTOMERS  amazon_reviews_us_Books_v1_02.tsv  assignments  datamash-1.3  datamash-1.3.tar.gz  worksheets  ws5.txt
+
+bui@f6linuxA7:~$ cd worksheets
+
+bui@f6linuxA7:~/worksheets$ cd ws3
+
+bui@f6linuxA7:~/worksheets/ws3$ cp customerids.txt.sorted.uniqcounts.reversed ~/
+
+bui@f6linuxA7:~/worksheets/ws3$ cd ..
+
+bui@f6linuxA7:~/worksheets$ cd ..
+
+bui@f6linuxA7:~$ head -n 3 customerids.txt.sorted.uniqcounts.reversed
+  21922 50122160
+   9964 50732546
+   2664 52615377
+
+bui@f6linuxA7:~$ awk '{print $2}' customerids.txt.sorted.uniqcounts.reversed | head -n 1000 > top1000customers.txt
+
+bui@f6linuxA7:~$ ls
+CUSTOMERS  amazon_reviews_us_Books_v1_02.tsv  assignments  customerids.txt.sorted.uniqcounts.reversed  datamash-1.3  datamash-1.3.tar.gz  top1000customers.txt  worksheets  ws5.txt
+
+bui@f6linuxA7:~$ for i in `cat top1000customers.txt`; do (egrep $'\t'$i$'\t' amazon_reviews_us_Books_v1_02.tsv > "CUSTOMERS/$i.txt" &); done
+
+bui@f6linuxA7:~$ cd CUSTOMERS
+
+bui@f6linuxA7:~/CUSTOMERS$ ls | wc -l
+1000
+
+----------------------------------------------------------------------------------------------------------------------
+EXPLANATION: I created the CUSTOMERS directory in my home directory. Then, I copy the file from ws3 where I had
+gotten the reverse sorted and unique counted customer ids, and I show how at the top of the file will be the
+customers that had the most reviews. From there, I take the first 1000 customer ids from the second column into
+its own file for ease of the for loop iteration condition. Then, for each customer in the file of 1000 customer ids,
+I get all the reviews for that customer id and put it in its own file in CUSTOMERS. Finally, I use ls | wc -l in
+the CUSTOMERS directory to show that indeed, the for loop produced 1000 total files. 
+
+======================================================================================================================
+bui@f6linuxA7:~/CUSTOMERS$ cd ..
+
+bui@f6linuxA7:~$ history > cmds.log
+
+bui@f6linuxA7:~$ exit
+
+Script done on 2021-10-01 18:16:00+00:00 [COMMAND_EXIT_CODE="0"]

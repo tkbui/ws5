@@ -1,0 +1,14 @@
+    1  mkdir CUSTOMERS
+    2  ls
+    3  cd worksheets
+    4  cd ws3
+    5  cp customerids.txt.sorted.uniqcounts.reversed ~/
+    6  cd ..
+    7  head -n 3 customerids.txt.sorted.uniqcounts.reversed
+    8  awk '{print $2}' customerids.txt.sorted.uniqcounts.reversed | head -n 1000 > top1000customers.txt
+    9  ls
+   10  for i in `cat top1000customers.txt`; do (egrep $'\t'$i$'\t' amazon_reviews_us_Books_v1_02.tsv > "CUSTOMERS/$i.txt" &); done
+   11  cd CUSTOMERS
+   12  ls | wc -l
+   13  cd ..
+   14  history > cmds.log
